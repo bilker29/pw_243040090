@@ -17,7 +17,7 @@
                 echo "<br>";
             }
         }
-        
+
         urutanAngka(5);
     ?>
 </body>

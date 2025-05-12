@@ -131,6 +131,7 @@
             <li>EMAIL   : <?= $mhs["email"]; ?></li>
             <li>JURUSAN : <?= $mhs["jurusan"]; ?></li>
         </ul>
-    <?php endforeach; ?>
+    <?php endforeach; 
+    ?>
 </body>
 </html>
