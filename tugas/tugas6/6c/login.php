@@ -1,3 +1,17 @@
+<?php
+session_start();
+
+if (isset($_POST["submit"])) {
+    if ($_POST["username"] === "admin" && $_POST["password"] === "admin") {
+        $_SESSION["admin"] = true;
+        header("Location: admin.php");
+        exit;
+    } else {
+        $error = true;
+    }
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,8 +20,11 @@
     <title>Login</title>
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <style>
-        /* CSS */
         @import url('https://use.fontawesome.com/releases/v5.12.0/css/all.css');
+
+        * {
+            box-sizing: border-box;
+        }
 
         input:focus {
             outline: none;
@@ -29,6 +46,11 @@
             text-decoration: underline;
         }
 
+        body {
+            margin: 0;
+            padding: 0;
+        }
+
         #main-container {
             min-width: 450px;
             min-height: 100vh;
@@ -36,6 +58,21 @@
             align-items: center;
             justify-content: center;
             font-family: "calibri";
+            position: relative;
+            overflow: hidden;
+            z-index: 0;
+        }
+
+        #main-container::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-image: url('gambarlogin.jpeg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            filter: brightness(0.5);
+            z-index: -1;
         }
 
         .form-container {
@@ -44,6 +81,7 @@
             position: relative;
             perspective: 1000px;
             transform-style: preserve-3d;
+            z-index: 1;
         }
 
         .login-form,
@@ -57,7 +95,7 @@
             text-align: center;
             position: absolute;
             border-radius: 20px;
-            background: rgb(253, 253, 253);
+            background: rgba(255, 255, 255, 0.95);
             animation: .8s ease-in-out forwards;
         }
 
@@ -85,6 +123,7 @@
 
         .title {
             font-size: 30px;
+            color: #1a1a1a;
         }
 
         form {
@@ -138,11 +177,6 @@
             color: rgba(0, 0, 0, 0.856);
         }
 
-        button {
-            position: absolute;
-            font-size: 2rem;
-        }
-
         .login-btn,
         .signup-btn {
             width: 100%;
@@ -154,7 +188,7 @@
             transition: .3s;
             color: white;
             background: #1a1a1a;
-            padding: 5px;
+            padding: 10px;
         }
 
         .login-btn {
@@ -235,6 +269,12 @@
             animation-name: below;
         }
 
+        .error {
+            text-align: center;
+            color: #ff4b5c;
+            margin-top: 10px;
+        }
+
         @keyframes above {
             0% {
                 transform: translate3d(0, 0, -500px);
@@ -269,16 +309,16 @@
     <div class="form-container">
         <div class="login-form">
             <div class="title">LOGIN</div>
-            <form>
+            <form method="POST">
                 <div class="field">
-                    <input type="email" id="email-address" placeholder=" " required autocomplete="on">
-                    <label for="email-address">Email</label>
-                    <i class="fa fa-envelope"></i>
+                    <input type="text" name="username" placeholder=" " required autocomplete="on">
+                    <label for="username">Username</label>
+                    <i class="fa fa-user"></i>
                 </div>
 
                 <div class="field">
-                    <input type="password" id="create-pass" required placeholder=" " autocomplete="on">
-                    <label for="create-pass">Password</label>
+                    <input type="password" name="password" required placeholder=" " autocomplete="on">
+                    <label for="password">Password</label>
                     <i class="fa fa-lock"></i>
                 </div>
 
@@ -287,8 +327,12 @@
                     <a href="#">Forget Password?</a>
                 </section>
 
-                <button class="login-btn">Login</button>
+                <button class="login-btn" type="submit" name="submit">Login</button>
             </form>
+
+            <?php if (isset($error)) : ?>
+                <p class="error">Username atau password salah!</p>
+            <?php endif; ?>
 
             <div class="bottom">
                 <div class="other">
@@ -304,6 +348,7 @@
                 <div>Don't have an Account?&nbsp;<a class="signup-switch" onclick="swapPos(this)">Sign up</a></div>
             </div>
         </div>
+
         <div class="signup-form">
             <div class="title">SIGN UP</div>
             <form>
@@ -332,10 +377,9 @@
                 </div>
 
                 <section>
-                    <label for="agree"><input type="checkbox" id="agree">I agree to all&nbsp;<a href="#">Terms &
-                            Conditions</a></label>
+                    <label for="agree"><input type="checkbox" id="agree">I agree to all&nbsp;<a href="#">Terms & Conditions</a></label>
                 </section>
-                <button class="signup-btn">Register</button>
+                <button class="signup-btn" type="button">Register</button>
             </form>
 
             <div class="bottom">
@@ -344,8 +388,8 @@
         </div>
     </div>
 </div>
+
 <script>
-    // JavaScript
     const loginForm = document.querySelector('.login-form');
     const signupForm = document.querySelector('.signup-form');
 

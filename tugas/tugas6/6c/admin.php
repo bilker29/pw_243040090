@@ -1,3 +1,18 @@
+<?php
+    session_start();
+
+    if (!isset($_SESSION["admin"])) {
+        header("Location: login.php");
+        exit;
+    }
+
+    if (isset($_GET["logout"])) {
+        session_destroy();
+        header("Location: login.php");
+        exit;
+    }
+?>
+
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -6,7 +21,7 @@
     <title>Selamat Datang</title>
     <style>
         body {
-            background-image: url('back.jpeg');
+            background-image: url('gambaradmin.jpeg');
             font-family: Arial, sans-serif;
             background-size: cover; 
             background-position: center;
@@ -53,13 +68,15 @@
 <body>
     <div class="container">
         <h1>Selamat Datang di Website Bilker!</h1>
-        <p>Haiii perkenalkan saya billy wicaksono saya merupakan mahasiswa teknik informatika universitas pasundan.</p>
+        <p>Haiii perkenalkan saya billy wicaksono saya merupakan mahasiswa semester 2 teknik informatika universitas pasundan.</p>
         <button id="logoutButton">Logout</button>
     </div>
 
     <script>
         document.getElementById('logoutButton').addEventListener('click', function() {
-            alert('Anda telah logout!');
+            if (confirm('Apakah Anda yakin ingin logout?')) {
+                window.location.href = 'admin.php?logout=true';
+            }
         });
     </script>
 </body>
