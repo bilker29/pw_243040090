@@ -11,7 +11,7 @@
         $email = "billywicaksono.999@agmail.com";
         $pekerjaan = "Mahasiswa";
         $jurusan = "Teknik Informatika";
-        $universitas = "Unversitas Pasundan";
+        $universitas = "Universitas Pasundan";
 
         echo "<h1>Perkenalkan nama saya $nama</h1>";
         echo "<p>Email : $email</p>";
