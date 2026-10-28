@@ -25,21 +25,26 @@
     </style>
 </head>
 <body>
-<?php
-    if (isset($_GET["angka"])) {
-        $angka = $_GET["angka"];
-        for ($i = $angka; $i >= 1; $i--) {
-            for ($j = 1; $j <= $i; $j++) {
-                if ($i % 2 == 0) {
-                    echo '<div class="kotak">' . $i . '</div>';
-                } else {
-                    echo '<div class="kotak2">' . $i . '</div>';
-                }
-            }
-            echo "<br>";
-        }
-    } else {
-    }
+    <?php
+    $input = $_GET["angka"] ?? null;
+    $angka = is_string($input) ? filter_var($input, FILTER_VALIDATE_INT) : false;
+    $angkaValid = $angka !== false && $angka >= 1 && $angka <= 50;
     ?>
+    <form method="get">
+        <label for="angka">Masukkan angka (1–50):</label>
+        <input type="number" id="angka" name="angka" min="1" max="50" required>
+        <button type="submit">Kirim</button>
+    </form>
+
+    <?php if (isset($_GET["angka"]) && !$angkaValid) : ?>
+        <p>Masukkan bilangan bulat antara 1 dan 50.</p>
+    <?php elseif ($angkaValid) : ?>
+        <?php for ($i = $angka; $i >= 1; $i--) : ?>
+            <?php for ($j = 1; $j <= $i; $j++) : ?>
+                <div class="<?= $i % 2 === 0 ? 'kotak' : 'kotak2' ?>"><?= $i ?></div>
+            <?php endfor; ?>
+            <br>
+        <?php endfor; ?>
+    <?php endif; ?>
 </body>
 </html>

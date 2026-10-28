@@ -2,7 +2,11 @@
 session_start();
 
 if (isset($_POST["submit"])) {
-    if ($_POST["username"] === "admin" && $_POST["password"] === "admin") {
+    $username = $_POST["username"] ?? null;
+    $password = $_POST["password"] ?? null;
+
+    if (is_string($username) && is_string($password) && $username === "admin" && $password === "admin") {
+        session_regenerate_id(true);
         $_SESSION["admin"] = true;
         header("Location: admin.php");
         exit;

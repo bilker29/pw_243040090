@@ -12,7 +12,7 @@
 </head>
 <body>
     <?php
-        $perangkat = ['Motherboard', 'Processor', 'Hard Diks', 'PC Coller', 'VGA Card', 'SSD'];
+        $perangkat = ['Motherboard', 'Processor', 'Hard Disk', 'PC Cooler', 'VGA Card', 'SSD'];
     ?>
 
     <h2>Macam-macam perangkat keras komputer</h2>

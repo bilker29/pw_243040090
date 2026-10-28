@@ -26,26 +26,26 @@
 </head>
 <body>
 <form action="" method="post">
-        Masukkan angka:
-        <input type="number" name="angka">
+        <label for="angka">Masukkan angka (1–50):</label>
+        <input type="number" id="angka" name="angka" min="1" max="50" required>
         <br>
-        <button type="submit" name="submit">kirim</button>
+        <button type="submit" name="submit">Kirim</button>
     </form>
 
     <?php
-    if (isset($_POST["angka"])) {
-        $angka = $_POST["angka"];
+    $input = $_POST["angka"] ?? null;
+    $angka = is_string($input) ? filter_var($input, FILTER_VALIDATE_INT) : false;
+    $angkaValid = $angka !== false && $angka >= 1 && $angka <= 50;
+    if (isset($_POST["submit"]) && !$angkaValid) {
+        echo "<p>Masukkan bilangan bulat antara 1 dan 50.</p>";
+    } elseif ($angkaValid) {
         for ($i = $angka; $i >= 1; $i--) {
             for ($j = 1; $j <= $i; $j++) {
-                if ($i % 2 == 0) {
-                    echo '<div class="kotak">' . $i . '</div>';
-                } else {
-                    echo '<div class="kotak2">' . $i . '</div>';
-                }
+                $class = $i % 2 === 0 ? "kotak" : "kotak2";
+                echo '<div class="' . $class . '">' . $i . '</div>';
             }
             echo "<br>";
         }
-    } else {
     }
     ?>
 </body>
